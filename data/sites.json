@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "title": "Minimal Portfolio",
+    "description": "Clean portfolio design",
+    "image": "/images/site1.jpg",
+    "url": "https://example.com",
+    "tags": ["portfolio", "minimal"],
+    "createdAt": "2026-01-01"
+  },
+  {
+    "id": "2",
+    "title": "Creative Agency",
+    "description": "Bold and modern UI",
+    "image": "/images/site2.jpg",
+    "url": "https://example.com",
+    "tags": ["agency", "modern"],
+    "createdAt": "2026-01-02"
+  }
+]
