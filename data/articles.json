@@ -1,18 +1,22 @@
 [
   {
-    "id": "1",
-    "title": "Les Tendances du Design en 2026",
-    "excerpt": "Découvrez les nouvelles tendances qui dominent le monde du design cette année.",
-    "content": "Full article content here...",
-    "image": "/images/placeholder/placeholder.jpg",
-    "createdAt": "2026-04-15"
+    "image": "/images/placeholder/placeholder.png",
+    "type": "Category",
+    "title": "NEXORA®"
   },
   {
-    "id": "2",
-    "title": "Comment créer un portfolio percutant",
-    "excerpt": "Les clés pour réussir votre portfolio designer.",
-    "content": "Full article content here...",
-    "image": "/images/placeholder/placeholder.jpg",
-    "createdAt": "2026-03-10"
+    "image": "/images/placeholder/placeholder.png",
+    "type": "Category",
+    "title": "NEXORA®2"
+  },
+  {
+    "image": "/images/placeholder/placeholder.png",
+    "type": "Category",
+    "title": "NEXORA®3"
+  },
+  {
+    "image": "/images/placeholder/placeholder.png",
+    "type": "Category",
+    "title": "NEXORA®4"
   }
 ]

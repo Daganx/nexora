@@ -33,7 +33,7 @@ export function Navbar() {
           <input
             type="search"
             placeholder="Search by inspiration"
-            className="w-full max-w-md bg-gray-100 rounded-full px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-black/20"
+            className="w-full max-w-md bg-gray-100 rounded-2xl px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-black/20"
           />
         </div>
 

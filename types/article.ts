@@ -1,8 +1,5 @@
-export type Article = {
-  id: string;
-  title: string;
-  excerpt: string;
-  content: string;
+export interface Article {
   image: string;
-  createdAt: string;
-};
+  type: string;
+  title: string;
+}
