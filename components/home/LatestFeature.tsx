@@ -3,7 +3,7 @@ import { FeatureCard } from "./features/FeatureCard";
 
 // File for the 2 latest articles on HomePage
 export function LatestFeature() {
-  const latestFeatures = featuresData.slice(0, 4);
+  const latestFeatures = featuresData.slice(0, 2);
 
   return (
     <section>

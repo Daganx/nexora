@@ -1,22 +1,22 @@
 [
   {
     "image": "/images/placeholder/placeholder.png",
-    "type": "Category",
+    "type": "Button",
     "title": "NEXORA®"
   },
   {
     "image": "/images/placeholder/placeholder.png",
-    "type": "Category",
+    "type": "Animation",
     "title": "NEXORA®2"
   },
   {
     "image": "/images/placeholder/placeholder.png",
-    "type": "Category",
+    "type": "Toggle",
     "title": "NEXORA®3"
   },
   {
     "image": "/images/placeholder/placeholder.png",
-    "type": "Category",
+    "type": "Card",
     "title": "NEXORA®4"
   }
 ]
