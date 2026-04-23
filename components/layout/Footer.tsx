@@ -5,7 +5,6 @@ import Link from "next/link";
 const footerColumns = [
   [
     { label: "Explore", href: "/articles", external: false },
-    { label: "Directory", href: "/articles", external: false },
     { label: "Blog", href: "/articles", external: false },
   ],
   [

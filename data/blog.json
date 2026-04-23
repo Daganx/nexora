@@ -1,0 +1,26 @@
+[
+  {
+    "image": "/images/placeholder/placeholder.png",
+    "type": "Category Blog",
+    "title": "NEXORA® Blog",
+    "desc": "Blog desc"
+  },
+  {
+    "image": "/images/placeholder/placeholder.png",
+    "type": "Category Blog",
+    "title": "NEXORA®2 Blog",
+    "desc": "Blog desc"
+  },
+  {
+    "image": "/images/placeholder/placeholder.png",
+    "type": "Category",
+    "title": "NEXORA®3 Blog",
+    "desc": "Blog desc"
+  },
+  {
+    "image": "/images/placeholder/placeholder.png",
+    "type": "Category",
+    "title": "NEXORA®4 Blog",
+    "desc": "Blog desc"
+  }
+]

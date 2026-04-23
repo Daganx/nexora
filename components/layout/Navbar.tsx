@@ -17,8 +17,7 @@ export function Navbar() {
 
           {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-6 text-sm font-medium">
-            <Link href="/articles">Explore</Link>
-            <Link href="/articles">Directory</Link>
+            <Link href="/explore">Explore</Link>
             <Link href="/articles" className="flex items-center gap-2">
               Blog
               <span className="bg-black text-white text-xs px-2 py-[2px] rounded">
@@ -62,7 +61,6 @@ export function Navbar() {
       {isOpen && (
         <div className="md:hidden px-6 pb-6 flex flex-col gap-4 text-sm font-medium">
           <Link href="/articles">Explore</Link>
-          <Link href="/articles">Directory</Link>
 
           <input
             type="search"

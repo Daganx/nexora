@@ -1,3 +1,5 @@
+// Function for the HeroBanner on HomePage
+
 export function HeroBanner() {
   return (
     <section className="relative flex items-center justify-center mb-12 mt-20 border-b">
