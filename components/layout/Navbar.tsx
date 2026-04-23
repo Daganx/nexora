@@ -18,7 +18,7 @@ export function Navbar() {
           {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-6 text-sm font-medium">
             <Link href="/explore">Explore</Link>
-            <Link href="/articles" className="flex items-center gap-2">
+            <Link href="/blog" className="flex items-center gap-2">
               Blog
               <span className="bg-black text-white text-xs px-2 py-[2px] rounded">
                 New
@@ -38,8 +38,8 @@ export function Navbar() {
 
         {/* RIGHT */}
         <div className="hidden md:flex items-center gap-4 text-sm font-medium">
-          <Link href="/articles">Log in</Link>
-          <Link href="/articles">Sign Up</Link>
+          <Link href="/login">Log in</Link>
+          <Link href="/signup">Sign Up</Link>
 
           <button className="bg-black text-white px-4 py-2 rounded-lg">
             <Link href="https://buymeacoffee.com/" target="new_blank">
@@ -60,7 +60,8 @@ export function Navbar() {
       {/* MOBILE MENU */}
       {isOpen && (
         <div className="md:hidden px-6 pb-6 flex flex-col gap-4 text-sm font-medium">
-          <Link href="/articles">Explore</Link>
+          <Link href="/explore">Explore</Link>
+          <Link href="/blog">Blog</Link>
 
           <input
             type="search"
@@ -68,8 +69,8 @@ export function Navbar() {
             className="w-full bg-gray-100 rounded-full px-4 py-2 outline-none"
           />
 
-          <Link href="/articles">Log in</Link>
-          <Link href="/articles">Sign Up</Link>
+          <Link href="/login">Log in</Link>
+          <Link href="/signup">Sign Up</Link>
 
           <button className="bg-black text-white px-4 py-2 rounded-lg">
             Support
