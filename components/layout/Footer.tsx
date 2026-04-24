@@ -4,12 +4,12 @@ import Link from "next/link";
 
 const footerColumns = [
   [
-    { label: "Explore", href: "/articles", external: false },
-    { label: "Blog", href: "/articles", external: false },
+    { label: "Explore", href: "/explore", external: false },
+    { label: "Blog", href: "/blog", external: false },
   ],
   [
-    { label: "Log in", href: "/articles", external: false },
-    { label: "Sign Up", href: "/articles", external: false },
+    { label: "Log in", href: "/login", external: false },
+    { label: "Sign Up", href: "/signup", external: false },
   ],
   [{ label: "Support", href: "https://buymeacoffee.com/", external: true }],
 ];

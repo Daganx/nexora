@@ -1,11 +1,11 @@
 "use client";
 
-import featuresData from "@/data/features.json";
+import blogsData from "@/data/blog.json";
 import { useSortableList } from "@/hooks/useSortableList";
-import { SortFilter } from "../SortFilter";
-import { FeaturesList } from "./FeaturesList";
+import { SortFilter } from "@/components/explore/SortFilter";
+import { BlogsList } from "./BlogsList";
 
-export function Features() {
+export function Blogs() {
   const {
     sortOption,
     setSortOption,
@@ -13,8 +13,8 @@ export function Features() {
     toggleFilter,
     clearFilters,
     filteredAndSortedData,
-  } = useSortableList<typeof featuresData[number]>({
-    data: featuresData,
+  } = useSortableList<typeof blogsData[number]>({
+    data: blogsData,
     filterKey: "type",
   });
 
@@ -26,8 +26,9 @@ export function Features() {
         activeFilters={activeFilters}
         onFilterToggle={toggleFilter}
         onFilterClear={clearFilters}
+        showFilters={false}
       />
-      <FeaturesList features={filteredAndSortedData} />
+      <BlogsList blogs={filteredAndSortedData} />
     </section>
   );
 }
