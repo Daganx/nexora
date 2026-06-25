@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "title": "Wallpaper 1",
+    "slug": "wallpaper-1",
+    "category": "abstract",
+    "image": "/wallpapers/wallpaper-1.jpeg",
+    "createdAt": "2026-06-24"
+  },
+  {
+    "id": 2,
+    "title": "Wallpaper 2",
+    "slug": "wallpaper-2",
+    "category": "nature",
+    "image": "/wallpapers/wallpaper-2.jpeg",
+    "createdAt": "2026-06-23"
+  },
+  {
+    "id": 3,
+    "title": "Wallpaper 3",
+    "slug": "wallpaper-3",
+    "category": "dark",
+    "image": "/wallpapers/wallpaper-3.png",
+    "createdAt": "2026-06-22"
+  },
+  {
+    "id": 4,
+    "title": "Wallpaper 4",
+    "slug": "wallpaper-4",
+    "category": "minimal",
+    "image": "/wallpapers/wallpaper-4.png",
+    "createdAt": "2026-06-21"
+  },
+  {
+    "id": 5,
+    "title": "Wallpaper 5",
+    "slug": "wallpaper-5",
+    "category": "abstract",
+    "image": "/wallpapers/wallpaper-5.png",
+    "createdAt": "2026-06-20"
+  },
+  {
+    "id": 6,
+    "title": "Wallpaper 6",
+    "slug": "wallpaper-6",
+    "category": "nature",
+    "image": "/wallpapers/wallpaper-6.webp",
+    "createdAt": "2026-06-19"
+  },
+  {
+    "id": 7,
+    "title": "Wallpaper 7",
+    "slug": "wallpaper-7",
+    "category": "dark",
+    "image": "/wallpapers/wallpaper-7.webp",
+    "createdAt": "2026-06-18"
+  }
+]
