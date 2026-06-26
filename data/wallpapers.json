@@ -3,7 +3,7 @@
     "id": 1,
     "title": "Wallpaper 1",
     "slug": "wallpaper-1",
-    "category": "abstract",
+    "category": "paint",
     "image": "/wallpapers/wallpaper-1.jpeg",
     "createdAt": "2026-06-24"
   },
@@ -27,7 +27,7 @@
     "id": 4,
     "title": "Wallpaper 4",
     "slug": "wallpaper-4",
-    "category": "minimal",
+    "category": "nature",
     "image": "/wallpapers/wallpaper-4.png",
     "createdAt": "2026-06-21"
   },
@@ -35,7 +35,7 @@
     "id": 5,
     "title": "Wallpaper 5",
     "slug": "wallpaper-5",
-    "category": "abstract",
+    "category": "car",
     "image": "/wallpapers/wallpaper-5.png",
     "createdAt": "2026-06-20"
   },
@@ -51,7 +51,7 @@
     "id": 7,
     "title": "Wallpaper 7",
     "slug": "wallpaper-7",
-    "category": "dark",
+    "category": "City",
     "image": "/wallpapers/wallpaper-7.webp",
     "createdAt": "2026-06-18"
   }
