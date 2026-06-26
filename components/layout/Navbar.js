@@ -1,11 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useSearch } from "./Navbar/useSearch";
 import SearchOverlay from "./Navbar/SearchOverlay";
 import MobileMenu from "./Navbar/MobileMenu";
 
 export function Navbar() {
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/auth/verify")
+      .then((res) => res.json())
+      .then((data) => setIsAdmin(data.authenticated))
+      .catch(() => {});
+  }, []);
+
   const {
     isOpen,
     setIsOpen,
@@ -43,6 +53,11 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-6 text-sm font-medium">
             <Link href="/explore">Explore</Link>
             <Link href="/category">Category</Link>
+            {isAdmin && (
+              <Link href="/admin" className="text-neutral-500 hover:text-black transition-colors">
+                Dashboard
+              </Link>
+            )}
           </div>
         </div>
 
@@ -76,6 +91,7 @@ export function Navbar() {
 
       <MobileMenu
         isOpen={isOpen}
+        isAdmin={isAdmin}
         query={query}
         showResults={showResults}
         mobileSearchRef={mobileSearchRef}

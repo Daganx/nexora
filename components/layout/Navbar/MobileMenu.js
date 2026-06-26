@@ -3,6 +3,7 @@ import SearchResults from "./SearchResults";
 
 export default function MobileMenu({
   isOpen,
+  isAdmin,
   query,
   showResults,
   mobileSearchRef,
@@ -24,6 +25,11 @@ export default function MobileMenu({
       <Link href="/category" onClick={onClose}>
         Category
       </Link>
+      {isAdmin && (
+        <Link href="/admin" onClick={onClose} className="text-neutral-500">
+          Dashboard
+        </Link>
+      )}
 
       <div ref={mobileSearchRef}>
         <input
