@@ -30,7 +30,7 @@ export default function SearchResults({
                 </Link>
                 {catWallpapers.map((wp) => (
                   <Link
-                    key={wp.id}
+                    key={wp._id}
                     href={`/wallpaper/${wp.slug}`}
                     onClick={onResultClick}
                     className="flex items-center gap-3 px-4 py-2 hover:bg-neutral-50 transition-colors"

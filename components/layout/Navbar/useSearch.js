@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import wallpapers from "@/data/wallpapers.json";
 
 export function useSearch() {
   const router = useRouter();
@@ -11,10 +10,20 @@ export function useSearch() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [showResults, setShowResults] = useState(false);
+  const [wallpapers, setWallpapers] = useState([]);
 
   const debounceRef = useRef(null);
   const searchRef = useRef(null);
   const mobileSearchRef = useRef(null);
+
+  useEffect(() => {
+    fetch("/api/wallpapers")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) setWallpapers(data);
+      })
+      .catch(() => {});
+  }, []);
 
   const filtered = query.trim()
     ? wallpapers.filter(

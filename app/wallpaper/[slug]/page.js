@@ -2,11 +2,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import WallpaperViewer from "@/components/wallpapers/WallpaperViewer";
 import WallpaperCard from "@/components/ui/WallpaperCard";
-import wallpapers from "@/data/wallpapers.json";
+import { getAllWallpapers, getWallpaperBySlug } from "@/lib/wallpapers";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const wp = wallpapers.find((w) => w.slug === slug);
+  const wp = await getWallpaperBySlug(slug);
 
   if (!wp) return { title: "Nexora - Not Found" };
 
@@ -15,11 +15,12 @@ export async function generateMetadata({ params }) {
 
 export default async function WallpaperPage({ params }) {
   const { slug } = await params;
-  const wp = wallpapers.find((w) => w.slug === slug);
+  const wp = await getWallpaperBySlug(slug);
 
   if (!wp) notFound();
 
-  const sameCategory = wallpapers.filter(
+  const all = await getAllWallpapers();
+  const sameCategory = all.filter(
     (w) => w.category === wp.category && w.slug !== slug
   );
 
@@ -83,7 +84,7 @@ export default async function WallpaperPage({ params }) {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {sameCategory.map((w) => (
-              <WallpaperCard key={w.id} wp={w} />
+              <WallpaperCard key={w._id} wp={w} />
             ))}
           </div>
         </section>

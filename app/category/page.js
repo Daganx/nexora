@@ -1,15 +1,18 @@
 import WallpaperCard from "@/components/ui/WallpaperCard";
-import wallpapers from "@/data/wallpapers.json";
+import { getAllWallpapers, getCategories } from "@/lib/wallpapers";
 
 export const metadata = {
   title: "Nexora - Category",
 };
 
-const categories = [...new Set(wallpapers.map((w) => w.category))];
-
 export default async function Category({ searchParams }) {
   const { cat: activeCat, q } = await searchParams;
   const searchQuery = q?.toLowerCase().trim() || "";
+
+  const [wallpapers, categories] = await Promise.all([
+    getAllWallpapers(),
+    getCategories(),
+  ]);
 
   let filtered = activeCat
     ? wallpapers.filter((w) => w.category === activeCat)
@@ -57,7 +60,7 @@ export default async function Category({ searchParams }) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filtered.map((wp) => (
-          <WallpaperCard key={wp.id} wp={wp} />
+          <WallpaperCard key={wp._id} wp={wp} />
         ))}
       </div>
     </section>

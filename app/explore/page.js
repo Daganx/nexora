@@ -1,5 +1,5 @@
 import WallpaperCard from "@/components/ui/WallpaperCard";
-import wallpapers from "@/data/wallpapers.json";
+import { getAllWallpapers } from "@/lib/wallpapers";
 
 export const metadata = {
   title: "Nexora - Explore",
@@ -8,6 +8,8 @@ export const metadata = {
 export default async function Explore({ searchParams }) {
   const { q } = await searchParams;
   const searchQuery = q?.toLowerCase().trim() || "";
+
+  const wallpapers = await getAllWallpapers();
 
   const filtered = searchQuery
     ? wallpapers.filter(
@@ -31,11 +33,9 @@ export default async function Explore({ searchParams }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filtered
-          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-          .map((wp) => (
-            <WallpaperCard key={wp.id} wp={wp} />
-          ))}
+        {filtered.map((wp) => (
+          <WallpaperCard key={wp._id} wp={wp} />
+        ))}
       </div>
     </section>
   );
