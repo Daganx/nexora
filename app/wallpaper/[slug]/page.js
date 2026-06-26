@@ -4,6 +4,15 @@ import WallpaperViewer from "@/components/wallpapers/WallpaperViewer";
 import WallpaperCard from "@/components/ui/WallpaperCard";
 import wallpapers from "@/data/wallpapers.json";
 
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const wp = wallpapers.find((w) => w.slug === slug);
+
+  if (!wp) return { title: "Nexora - Not Found" };
+
+  return { title: `Nexora - ${wp.title}` };
+}
+
 export default async function WallpaperPage({ params }) {
   const { slug } = await params;
   const wp = wallpapers.find((w) => w.slug === slug);

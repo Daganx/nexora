@@ -4,7 +4,7 @@ export default function WallpaperCard({ wp }) {
   return (
     <a
       href={`/wallpaper/${wp.slug}`}
-      className="group relative block w-full aspect-[4/3] rounded-2xl overflow-hidden bg-neutral-100"
+      className="group relative block w-full aspect-4/3 rounded-2xl overflow-hidden bg-neutral-100"
     >
       <Image
         src={wp.image}

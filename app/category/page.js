@@ -1,14 +1,27 @@
 import WallpaperCard from "@/components/ui/WallpaperCard";
 import wallpapers from "@/data/wallpapers.json";
 
+export const metadata = {
+  title: "Nexora - Category",
+};
+
 const categories = [...new Set(wallpapers.map((w) => w.category))];
 
 export default async function Category({ searchParams }) {
-  const { cat: activeCat } = await searchParams;
+  const { cat: activeCat, q } = await searchParams;
+  const searchQuery = q?.toLowerCase().trim() || "";
 
-  const filtered = activeCat
+  let filtered = activeCat
     ? wallpapers.filter((w) => w.category === activeCat)
     : wallpapers;
+
+  if (searchQuery) {
+    filtered = filtered.filter(
+      (w) =>
+        w.title.toLowerCase().includes(searchQuery) ||
+        w.category.toLowerCase().includes(searchQuery)
+    );
+  }
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-16">

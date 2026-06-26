@@ -9,7 +9,7 @@ const interTight = Inter_Tight({
 });
 
 export const metadata = {
-  title: "Wallpaper",
+  title: "Nexora",
   description: "Gallery of Wallpaper",
 };
 

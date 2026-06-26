@@ -19,7 +19,7 @@ export default function WallpaperViewer({ wp }) {
 
   return (
     <>
-      <div className="relative w-full lg:w-3/5 aspect-[4/3] rounded-2xl overflow-hidden bg-neutral-900 group cursor-pointer">
+      <div className="relative w-full lg:w-3/5 aspect-4/3 rounded-2xl overflow-hidden bg-neutral-900 group cursor-pointer">
         <Image
           src={wp.image}
           alt={wp.title}
