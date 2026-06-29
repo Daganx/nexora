@@ -62,3 +62,34 @@ export async function POST(request) {
     );
   }
 }
+
+export async function DELETE(request) {
+  try {
+    if (!(await verifyAdmin())) {
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { id } = await request.json();
+
+    if (!id) {
+      return Response.json({ error: "Missing wallpaper ID" }, { status: 400 });
+    }
+
+    await connectDB();
+    const deleted = await Wallpaper.findByIdAndDelete(id);
+
+    if (!deleted) {
+      return Response.json(
+        { error: "Wallpaper not found" },
+        { status: 404 }
+      );
+    }
+
+    return Response.json({ success: true });
+  } catch {
+    return Response.json(
+      { error: "Failed to delete wallpaper" },
+      { status: 500 }
+    );
+  }
+}

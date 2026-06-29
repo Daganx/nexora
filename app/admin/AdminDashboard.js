@@ -19,6 +19,25 @@ export default function AdminDashboard() {
       .finally(() => setLoading(false));
   }, []);
 
+  async function handleDelete(id) {
+    if (!confirm("Are you sure you want to delete this wallpaper?")) return;
+    try {
+      const res = await fetch("/api/wallpapers", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (res.ok) {
+        setWallpapers((prev) => prev.filter((wp) => wp._id !== id));
+      } else {
+        const data = await res.json();
+        alert(data.error || "Failed to delete");
+      }
+    } catch {
+      alert("Failed to delete wallpaper");
+    }
+  }
+
   async function handleLogout() {
     await fetch("/api/auth/logout", { method: "POST" });
     router.push("/admin/login");
@@ -70,6 +89,9 @@ export default function AdminDashboard() {
                   <th className="text-right px-6 py-3 font-medium text-neutral-500">
                     Created
                   </th>
+                  <th className="text-right px-6 py-3 font-medium text-neutral-500">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -87,6 +109,14 @@ export default function AdminDashboard() {
                     </td>
                     <td className="px-6 py-3 text-right text-neutral-500">
                       {new Date(wp.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-3 text-right">
+                      <button
+                        onClick={() => handleDelete(wp._id)}
+                        className="text-red-400 hover:text-red-600 transition-colors text-xs font-medium"
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}
