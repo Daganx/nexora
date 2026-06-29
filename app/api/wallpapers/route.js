@@ -63,6 +63,52 @@ export async function POST(request) {
   }
 }
 
+export async function PUT(request) {
+  try {
+    if (!(await verifyAdmin())) {
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { id, title, slug, category, image } = await request.json();
+
+    if (!id) {
+      return Response.json({ error: "Missing wallpaper ID" }, { status: 400 });
+    }
+
+    await connectDB();
+
+    if (slug) {
+      const existing = await Wallpaper.findOne({ slug, _id: { $ne: id } });
+      if (existing) {
+        return Response.json(
+          { error: "A wallpaper with this slug already exists" },
+          { status: 409 }
+        );
+      }
+    }
+
+    const updated = await Wallpaper.findByIdAndUpdate(
+      id,
+      { ...(title && { title }), ...(slug && { slug }), ...(category && { category }), ...(image && { image }) },
+      { new: true, runValidators: true }
+    );
+
+    if (!updated) {
+      return Response.json(
+        { error: "Wallpaper not found" },
+        { status: 404 }
+      );
+    }
+
+    return Response.json(updated);
+  } catch {
+    return Response.json(
+      { error: "Failed to update wallpaper" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function DELETE(request) {
   try {
     if (!(await verifyAdmin())) {

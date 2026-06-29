@@ -110,7 +110,13 @@ export default function AdminDashboard() {
                     <td className="px-6 py-3 text-right text-neutral-500">
                       {new Date(wp.createdAt).toLocaleDateString()}
                     </td>
-                    <td className="px-6 py-3 text-right">
+                    <td className="px-6 py-3 text-right flex items-center justify-end gap-3">
+                      <Link
+                        href={`/admin/edit/${wp._id}`}
+                        className="text-neutral-400 hover:text-black transition-colors text-xs font-medium"
+                      >
+                        Edit
+                      </Link>
                       <button
                         onClick={() => handleDelete(wp._id)}
                         className="text-red-400 hover:text-red-600 transition-colors text-xs font-medium"
