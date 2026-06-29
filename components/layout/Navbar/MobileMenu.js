@@ -14,6 +14,7 @@ export default function MobileMenu({
   onFocus,
   onResultClick,
   onClose,
+  onLogout,
 }) {
   if (!isOpen) return null;
 
@@ -26,9 +27,14 @@ export default function MobileMenu({
         Category
       </Link>
       {isAdmin && (
-        <Link href="/admin" onClick={onClose} className="text-neutral-500">
-          Dashboard
-        </Link>
+        <>
+          <Link href="/admin" onClick={onClose} className="text-neutral-500">
+            Dashboard
+          </Link>
+          <button onClick={onLogout} className="text-neutral-500 text-left cursor-pointer">
+            Logout
+          </button>
+        </>
       )}
 
       <div ref={mobileSearchRef}>

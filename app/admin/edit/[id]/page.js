@@ -2,15 +2,20 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
+import Image from "next/image";
 
 export default function EditWallpaper() {
   const router = useRouter();
   const params = useParams();
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
+  const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("");
+  const [categoryMode, setCategoryMode] = useState("select");
+  const [newCategory, setNewCategory] = useState("");
   const [image, setImage] = useState("");
   const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState("");
@@ -19,14 +24,18 @@ export default function EditWallpaper() {
     fetch("/api/wallpapers")
       .then((res) => res.json())
       .then((data) => {
-        const wp = Array.isArray(data) && data.find((w) => w._id === params.id);
-        if (wp) {
-          setTitle(wp.title);
-          setSlug(wp.slug);
-          setCategory(wp.category);
-          setImage(wp.image);
-        } else {
-          setError("Wallpaper not found");
+        if (Array.isArray(data)) {
+          const cats = [...new Set(data.map((w) => w.category).filter(Boolean))];
+          setCategories(cats);
+          const wp = data.find((w) => w._id === params.id);
+          if (wp) {
+            setTitle(wp.title);
+            setSlug(wp.slug);
+            setCategory(wp.category);
+            setImage(wp.image);
+          } else {
+            setError("Wallpaper not found");
+          }
         }
       })
       .catch(() => setError("Failed to load wallpaper"))
@@ -42,7 +51,7 @@ export default function EditWallpaper() {
         .replace(/[^\w\s-]/g, "")
         .replace(/\s+/g, "-")
         .replace(/-+/g, "-")
-        .trim()
+        .trim(),
     );
   }
 
@@ -58,7 +67,10 @@ export default function EditWallpaper() {
         const formData = new FormData();
         formData.append("file", file);
 
-        const uploadRes = await fetch("/api/upload", { method: "POST", body: formData });
+        const uploadRes = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
 
         if (!uploadRes.ok) {
           const data = await uploadRes.json();
@@ -71,7 +83,13 @@ export default function EditWallpaper() {
       const updateRes = await fetch("/api/wallpapers", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: params.id, title, slug, category, image: url }),
+        body: JSON.stringify({
+          id: params.id,
+          title,
+          slug,
+          category: categoryMode === "new" ? newCategory : category,
+          image: url,
+        }),
       });
 
       if (!updateRes.ok) {
@@ -118,9 +136,7 @@ export default function EditWallpaper() {
           onSubmit={handleSubmit}
           className="bg-white rounded-2xl shadow-xl border border-neutral-200 p-8 w-full max-w-lg"
         >
-          {error && (
-            <p className="text-sm text-red-600 mb-4">{error}</p>
-          )}
+          {error && <p className="text-sm text-red-600 mb-4">{error}</p>}
 
           <div className="flex flex-col gap-4">
             <input
@@ -138,23 +154,86 @@ export default function EditWallpaper() {
               readOnly
               className="w-full bg-gray-100 rounded-2xl px-4 py-2.5 text-sm text-neutral-500 outline-none"
             />
-            <input
-              type="text"
-              placeholder="Category"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              required
-              className="w-full bg-gray-100 rounded-2xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-black/20"
-            />
-            {image && (
-              <img src={image} alt="Current wallpaper" className="w-full h-32 object-cover rounded-2xl" />
+            {categoryMode === "select" ? (
+              <div className="flex gap-2">
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  required
+                  className="w-full bg-gray-100 rounded-2xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-black/20"
+                >
+                  <option value="">Select a category</option>
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCategoryMode("new");
+                    setNewCategory("");
+                  }}
+                  className="text-xs text-neutral-400 hover:text-black whitespace-nowrap transition-colors"
+                >
+                  + New
+                </button>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="New category name"
+                  value={newCategory}
+                  onChange={(e) => setNewCategory(e.target.value)}
+                  required
+                  className="w-full bg-gray-100 rounded-2xl px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-black/20"
+                />
+                <button
+                  type="button"
+                  onClick={() => setCategoryMode("select")}
+                  className="text-xs text-neutral-400 hover:text-black whitespace-nowrap transition-colors"
+                >
+                  Back
+                </button>
+              </div>
             )}
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setFile(e.target.files[0])}
-              className="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-2xl file:border-0 file:text-sm file:font-medium file:bg-black file:text-white hover:file:bg-neutral-800 cursor-pointer"
-            />
+            {image && !preview && (
+              <Image
+                src={image}
+                alt="Current wallpaper"
+                width={800}
+                height={160}
+                className="w-full h-32 object-cover rounded-2xl"
+              />
+            )}
+            <div className="flex flex-col gap-2">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const f = e.target.files[0];
+                  setFile(f);
+                  if (f) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => setPreview(reader.result);
+                    reader.readAsDataURL(f);
+                  } else {
+                    setPreview(null);
+                  }
+                }}
+                className="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-2xl file:border-0 file:text-sm file:font-medium file:bg-black file:text-white hover:file:bg-neutral-800 cursor-pointer"
+              />
+              {preview && (
+                <Image
+                  src={preview}
+                  alt="Preview"
+                  width={800}
+                  height={160}
+                  unoptimized
+                  className="w-full h-40 object-cover rounded-2xl border border-neutral-200"
+                />
+              )}
+            </div>
             <button
               type="submit"
               disabled={loading}

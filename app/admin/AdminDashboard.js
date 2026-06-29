@@ -1,11 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function AdminDashboard() {
-  const router = useRouter();
   const [wallpapers, setWallpapers] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -38,11 +36,6 @@ export default function AdminDashboard() {
     }
   }
 
-  async function handleLogout() {
-    await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/admin/login");
-  }
-
   return (
     <div className="min-h-screen bg-neutral-50">
       <div className="max-w-5xl mx-auto px-6 py-12">
@@ -55,12 +48,6 @@ export default function AdminDashboard() {
             >
               + New
             </Link>
-            <button
-              onClick={handleLogout}
-              className="text-sm font-medium text-neutral-500 hover:text-black transition-colors"
-            >
-              Logout
-            </button>
           </div>
         </div>
 

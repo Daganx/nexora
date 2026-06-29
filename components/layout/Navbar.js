@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useSearch } from "./Navbar/useSearch";
 import SearchOverlay from "./Navbar/SearchOverlay";
 import MobileMenu from "./Navbar/MobileMenu";
 
 export function Navbar() {
+  const router = useRouter();
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -15,6 +17,12 @@ export function Navbar() {
       .then((data) => setIsAdmin(data.authenticated))
       .catch(() => {});
   }, []);
+
+  async function handleLogout() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    setIsAdmin(false);
+    router.push("/admin/login");
+  }
 
   const {
     isOpen,
@@ -54,9 +62,14 @@ export function Navbar() {
             <Link href="/explore">Explore</Link>
             <Link href="/category">Category</Link>
             {isAdmin && (
-              <Link href="/admin" className="text-neutral-500 hover:text-black transition-colors">
-                Dashboard
-              </Link>
+              <>
+                <Link href="/admin" className="text-neutral-500 hover:text-black transition-colors">
+                  Dashboard
+                </Link>
+                <button onClick={handleLogout} className="text-neutral-500 hover:text-black transition-colors cursor-pointer">
+                  Logout
+                </button>
+              </>
             )}
           </div>
         </div>
@@ -102,6 +115,7 @@ export function Navbar() {
         onFocus={() => setShowResults(true)}
         onResultClick={handleMobileResultClick}
         onClose={() => setIsOpen(false)}
+        onLogout={handleLogout}
       />
     </nav>
   );
