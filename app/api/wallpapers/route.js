@@ -1,22 +1,36 @@
 import { connectDB } from "@/lib/db";
 import Wallpaper from "@/lib/models/Wallpaper";
-import { decrypt } from "@/lib/auth";
+import { verifyAdmin } from "@/lib/auth";
+import mongoose from "mongoose";
 
-async function verifyAdmin() {
-  const { cookies } = await import("next/headers");
-  const cookieStore = await cookies();
-  const session = cookieStore.get("session")?.value;
-
-  if (!session) return false;
-
-  const payload = await decrypt(session);
-  return !!payload;
-}
-
-export async function GET() {
+export async function GET(request) {
   try {
     await connectDB();
-    const wallpapers = await Wallpaper.find().sort({ createdAt: -1 });
+    const { searchParams } = request.nextUrl;
+    const page = parseInt(searchParams.get("page"));
+    const limit = parseInt(searchParams.get("limit"));
+    const search = searchParams.get("search")?.trim();
+
+    let filter = {};
+    if (search) {
+      filter = {
+        $or: [
+          { title: { $regex: search, $options: "i" } },
+          { category: { $regex: search, $options: "i" } },
+        ],
+      };
+    }
+
+    if (page && limit) {
+      const skip = (page - 1) * limit;
+      const [wallpapers, total] = await Promise.all([
+        Wallpaper.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit).lean(),
+        Wallpaper.countDocuments(filter),
+      ]);
+      return Response.json({ wallpapers, total, page, totalPages: Math.ceil(total / limit) });
+    }
+
+    const wallpapers = await Wallpaper.find(filter).sort({ createdAt: -1 });
     return Response.json(wallpapers);
   } catch (err) {
     console.error("GET /api/wallpapers error:", err);
@@ -74,6 +88,9 @@ export async function PUT(request) {
     if (!id) {
       return Response.json({ error: "Missing wallpaper ID" }, { status: 400 });
     }
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return Response.json({ error: "Invalid wallpaper ID" }, { status: 400 });
+    }
 
     await connectDB();
 
@@ -120,6 +137,9 @@ export async function DELETE(request) {
     if (!id) {
       return Response.json({ error: "Missing wallpaper ID" }, { status: 400 });
     }
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return Response.json({ error: "Invalid wallpaper ID" }, { status: 400 });
+    }
 
     await connectDB();
     const deleted = await Wallpaper.findByIdAndDelete(id);
@@ -139,3 +159,4 @@ export async function DELETE(request) {
     );
   }
 }
+

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
 export function useSearch() {
@@ -16,22 +16,24 @@ export function useSearch() {
   const searchRef = useRef(null);
   const mobileSearchRef = useRef(null);
 
-  useEffect(() => {
-    fetch("/api/wallpapers")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) setWallpapers(data);
-      })
-      .catch(() => {});
+  const fetchResults = useCallback(async (q) => {
+    if (!q.trim()) {
+      setWallpapers([]);
+      return;
+    }
+    try {
+      const res = await fetch(`/api/wallpapers?search=${encodeURIComponent(q.trim())}`);
+      const data = await res.json();
+      if (Array.isArray(data)) setWallpapers(data);
+    } catch {}
   }, []);
 
-  const filtered = query.trim()
-    ? wallpapers.filter(
-        (w) =>
-          w.title.toLowerCase().includes(query.toLowerCase()) ||
-          w.category.toLowerCase().includes(query.toLowerCase())
-      )
-    : [];
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => fetchResults(query), 200);
+  }, [query, fetchResults]);
+
+  const filtered = wallpapers;
 
   const matchedCategories = [...new Set(filtered.map((w) => w.category))];
 

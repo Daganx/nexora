@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import WallpaperViewer from "@/components/wallpapers/WallpaperViewer";
 import WallpaperCard from "@/components/ui/WallpaperCard";
-import { getAllWallpapers, getWallpaperBySlug } from "@/lib/wallpapers";
+import { getWallpaperBySlug, getWallpapersByCategory } from "@/lib/wallpapers";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -19,10 +19,7 @@ export default async function WallpaperPage({ params }) {
 
   if (!wp) notFound();
 
-  const all = await getAllWallpapers();
-  const sameCategory = all.filter(
-    (w) => w.category === wp.category && w.slug !== slug
-  );
+  const sameCategory = await getWallpapersByCategory(wp.category, slug);
 
   return (
     <main className="max-w-7xl mx-auto px-6 py-10">

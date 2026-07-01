@@ -1,16 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
-import { decrypt } from "@/lib/auth";
-
-async function verifyAdmin() {
-  const { cookies } = await import("next/headers");
-  const cookieStore = await cookies();
-  const session = cookieStore.get("session")?.value;
-
-  if (!session) return false;
-
-  const payload = await decrypt(session);
-  return !!payload;
-}
+import { verifyAdmin } from "@/lib/auth";
 
 export async function POST(request) {
   try {
@@ -23,6 +12,22 @@ export async function POST(request) {
 
     if (!file || typeof file === "string") {
       return Response.json({ error: "No file provided" }, { status: 400 });
+    }
+
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/avif"];
+    if (!allowedTypes.includes(file.type)) {
+      return Response.json(
+        { error: "Invalid file type. Allowed: JPEG, PNG, WebP, AVIF" },
+        { status: 400 }
+      );
+    }
+
+    const maxSize = 10 * 1024 * 1024;
+    if (file.size > maxSize) {
+      return Response.json(
+        { error: "File too large. Maximum size is 10MB" },
+        { status: 400 }
+      );
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());

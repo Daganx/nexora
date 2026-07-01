@@ -1,3 +1,4 @@
+import Link from "next/link";
 import WallpaperCard from "@/components/ui/WallpaperCard";
 import { getAllWallpapers, getCategories } from "@/lib/wallpapers";
 
@@ -33,7 +34,7 @@ export default async function Category({ searchParams }) {
       </div>
 
       <div className="flex flex-wrap gap-3 mb-10">
-        <a
+        <Link
           href="/category"
           className={`text-sm font-medium uppercase tracking-wider px-4 py-2 rounded-full border transition-colors ${
             !activeCat
@@ -42,9 +43,9 @@ export default async function Category({ searchParams }) {
           }`}
         >
           All
-        </a>
+        </Link>
         {categories.map((cat) => (
-          <a
+          <Link
             key={cat}
             href={`/category?cat=${cat}`}
             className={`text-sm font-medium uppercase tracking-wider px-4 py-2 rounded-full border transition-colors ${
@@ -54,7 +55,7 @@ export default async function Category({ searchParams }) {
             }`}
           >
             {cat}
-          </a>
+          </Link>
         ))}
       </div>
 

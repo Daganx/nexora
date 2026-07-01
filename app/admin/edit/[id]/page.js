@@ -21,25 +21,35 @@ export default function EditWallpaper() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("/api/wallpapers")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          const cats = [...new Set(data.map((w) => w.category).filter(Boolean))];
-          setCategories(cats);
-          const wp = data.find((w) => w._id === params.id);
-          if (wp) {
-            setTitle(wp.title);
-            setSlug(wp.slug);
-            setCategory(wp.category);
-            setImage(wp.image);
-          } else {
-            setError("Wallpaper not found");
-          }
+    async function load() {
+      try {
+        const [wpRes, catsRes] = await Promise.all([
+          fetch(`/api/wallpapers/${params.id}`),
+          fetch("/api/wallpapers"),
+        ]);
+
+        if (!wpRes.ok) {
+          setError("Wallpaper not found");
+          return;
         }
-      })
-      .catch(() => setError("Failed to load wallpaper"))
-      .finally(() => setFetching(false));
+
+        const wp = await wpRes.json();
+        setTitle(wp.title);
+        setSlug(wp.slug);
+        setCategory(wp.category);
+        setImage(wp.image);
+
+        const catsData = await catsRes.json();
+        if (Array.isArray(catsData)) {
+          setCategories([...new Set(catsData.map((w) => w.category).filter(Boolean))]);
+        }
+      } catch {
+        setError("Failed to load wallpaper");
+      } finally {
+        setFetching(false);
+      }
+    }
+    load();
   }, [params.id]);
 
   function handleTitleChange(e) {

@@ -1,8 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function WallpaperCard({ wp }) {
   return (
-    <a
+    <Link
       href={`/wallpaper/${wp.slug}`}
       className="group relative block w-full aspect-4/3 rounded-2xl overflow-hidden bg-neutral-100"
     >
@@ -27,6 +28,6 @@ export default function WallpaperCard({ wp }) {
           {wp.title}
         </h3>
       </div>
-    </a>
+    </Link>
   );
 }
